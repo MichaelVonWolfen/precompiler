@@ -3,6 +3,7 @@ int parameters_check(int i, char** argv, Map* map, List* list, char* delimiter){
     char* temp_Str;
     int return_int = 0;
     char* str = argv[i];
+    int ok = 1;
     if(!strcmp(str, delimiter)){
         i++;
         return_int = 1;
@@ -22,4 +23,6 @@ int parameters_check(int i, char** argv, Map* map, List* list, char* delimiter){
     }
     return return_int;
 }
-void readCodeFromConsole();
+void readCodeFromConsole(){
+    return;
+}

@@ -3,11 +3,19 @@
 #include<string.h>
 
 //#define DEBUG
+#define  REMOTE_DEBUGG
 #ifdef DEBUG
-#define show_var(a) printf("\nVariable %s\n", #a)
-#define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
+    #define show_var(a) printf("\nVariable %s\n", #a)
+    #define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
 #else
-#define Dprintf(msg,...)                /* do nothing */
+    #define show_var(a)
+    #define Dprintf(msg,...)                /* do nothing */
+#endif
+
+#ifdef REMOTE_DEBUGG
+    #define Rprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
+#else
+#define Rprintf(msg,...)                /* do nothing */
 #endif
 
 #include "header.h"
@@ -25,10 +33,13 @@ int main(int argc, char **argv)
     // HashMap* buffer = NULL;
     char* temp_Str = NULL;
     i = 1;
-    Dprintf("\n");
+    Rprintf("Argumente Total: %d\n", argc);
+    for(i = 1; i < argc; i++){
+        Rprintf("Argumentul %i: %s\n",i, argv[i]);
+    }
     while (i < argc)
     {
-        // Dprintf("%s", argv[i]);
+         Dprintf("%s", argv[i]);
         if(argv[i][0] == '-') {
             i += parameters_check(i, argv, defines, NULL, "-D");
             i += parameters_check(i, argv, NULL, includes, "-I");
