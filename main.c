@@ -1,13 +1,13 @@
 #include<stdlib.h>
 #include <stdio.h>
 #include<string.h>
- 
+
 #define DEBUG
 #ifdef DEBUG
-    #define show_var(a) printf("\nVariable %s\n", #a)
-    #define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
+#define show_var(a) printf("\nVariable %s\n", #a)
+#define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
 #else
-    #define Dprintf(msg,...)                /* do nothing */
+#define Dprintf(msg,...)                /* do nothing */
 #endif
 
 #include "header.h"
@@ -31,6 +31,7 @@ int main(int argc, char **argv)
             i++;
             Add_to_map(argv[i], defines);
         }else if(str[0] == '-' && str[1] == 'D'){
+            temp_Str = (char*) malloc(sizeof (char) * strlen(str - 2));
             strncpy(temp_Str, str + 2, strlen(str) - 2);
             Add_to_map(temp_Str, defines);
         }else if(!strcmp(str, "-I")){
@@ -39,11 +40,12 @@ int main(int argc, char **argv)
             Add_to_list(argv[i], includes);
             Dprintf("String 2 %s\n", str);
         }else if(str[0] == '-' && str[1] == 'I'){
+            temp_Str = (char*) malloc(sizeof (char) * strlen(str - 2));
             Dprintf("String 3 %s\n", str);
             strncpy(temp_Str, str + 2, strlen(str) - 2);
             Dprintf("String 4 %s\n", temp_Str);
             Add_to_list(temp_Str, includes);
-        } 
+        }
         i++;
     }
     if(defines != NULL){
