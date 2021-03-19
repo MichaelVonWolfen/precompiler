@@ -18,8 +18,8 @@ int main(int argc, char **argv)
     // Dprintf("argc:%d\n", argc);
 
     Map* defines = initialize_Map(NULL);
-    Map* includes = initialize_Map(NULL);
-    HashMap* buffer = NULL;
+    List* includes = initialize_List(NULL);
+    // HashMap* buffer = NULL;
     // char* temp_Str;
     i = 1;
     Dprintf("\n");
@@ -35,10 +35,10 @@ int main(int argc, char **argv)
             Add_to_map(str, defines);
         }else if(!strcmp(str, "-I")){
             i++;
-            Add_to_map(argv[i], includes);
+            Add_to_list(argv[i], includes);
         }else if(str[0] == '-' && str[1] == 'I'){
             strncpy(str, str + 2, strlen(str) - 2);
-            Add_to_map(str, includes);
+            Add_to_list(str, includes);
         } 
         i++;
     }
@@ -49,8 +49,8 @@ int main(int argc, char **argv)
     }
     if(includes != NULL){
         show_var(includes);
-        print_map(includes);
-        free_Map(includes);
+        print_list(includes);
+        free_list(includes);
     }
     printf("\n\n");
     return 0;
