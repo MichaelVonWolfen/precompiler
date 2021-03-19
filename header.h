@@ -190,7 +190,7 @@ void print_map(Map* map){
         HashMap* current = map->start;
         while (current != NULL)
         {
-            printf("Key: %s \t Value: %s\n", current->Key, current->Value);
+            printf("Key: %s \t Value: \"%s\"\n", current->Key, current->Value);
             current = current->next;
         }
     #endif

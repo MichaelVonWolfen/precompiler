@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include<string.h>
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define show_var(a) printf("\nVariable %s\n", #a)
 #define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
@@ -11,7 +11,7 @@
 #endif
 
 #include "header.h"
-
+#include "functions.h"
 int main(int argc, char **argv)
 {
     int i;
@@ -19,34 +19,32 @@ int main(int argc, char **argv)
 
     Map* defines = initialize_Map(NULL);
     List* includes = initialize_List(NULL);
+    List* outputs = initialize_List(NULL);
+
+    char* inFile;
     // HashMap* buffer = NULL;
-    char* temp_Str;
+    char* temp_Str = NULL;
     i = 1;
     Dprintf("\n");
     while (i < argc)
     {
         // Dprintf("%s", argv[i]);
-        char* str = argv[i];
-        if(!strcmp(str, "-D")){
-            i++;
-            Add_to_map(argv[i], defines);
-        }else if(str[0] == '-' && str[1] == 'D'){
-            temp_Str = (char*) malloc(sizeof (char) * strlen(str - 2));
-            strncpy(temp_Str, str + 2, strlen(str) - 2);
-            Add_to_map(temp_Str, defines);
-        }else if(!strcmp(str, "-I")){
-            i++;
-            Dprintf("String 1 %s\n", str);
-            Add_to_list(argv[i], includes);
-            Dprintf("String 2 %s\n", str);
-        }else if(str[0] == '-' && str[1] == 'I'){
-            temp_Str = (char*) malloc(sizeof (char) * strlen(str - 2));
-            Dprintf("String 3 %s\n", str);
-            strncpy(temp_Str, str + 2, strlen(str) - 2);
-            Dprintf("String 4 %s\n", temp_Str);
-            Add_to_list(temp_Str, includes);
+        if(argv[i][0] == '-') {
+            i += parameters_check(i, argv, defines, NULL, "-D");
+            i += parameters_check(i, argv, NULL, includes, "-I");
+            i += parameters_check(i, argv, NULL, outputs, "-o");
+            if(strlen(argv[i]) == 2){
+                //aka there is an argument received, but is a bad one, skip it
+                i++;
+            }
+        }else{
+            inFile = (char*)malloc(sizeof(char)*strlen(argv[i]));
+            strcpy(inFile, argv[i]);
         }
         i++;
+    }
+    if(inFile == NULL){
+        readCodeFromConsole();
     }
     if(defines != NULL){
         show_var(defines);
@@ -58,6 +56,11 @@ int main(int argc, char **argv)
         print_list(includes);
         free_list(includes);
     }
-    printf("\n\n");
+    if(outputs != NULL) {
+        show_var(outputs);
+        print_list(outputs);
+        free_list(outputs);
+    }
+    Dprintf("Infile: %s\n", inFile);
     return 0;
 }
