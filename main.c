@@ -2,39 +2,55 @@
 #include <stdio.h>
 #include<string.h>
  
-#include "header.h"
 #define DEBUG
-#define show_var(a) printf("Variable %s has value %d\n", #a, a)
 #ifdef DEBUG
-#define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
+    #define show_var(a) printf("\nVariable %s\n", #a)
+    #define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
 #else
-#define Dprintf(msg,...)                /* do nothing */
+    #define Dprintf(msg,...)                /* do nothing */
 #endif
 
+#include "header.h"
 
 int main(int argc, char **argv)
 {
     int i;
-    Dprintf("argc:%d\n", argc);
+    // Dprintf("argc:%d\n", argc);
 
-    Map* map = initialize_Map(NULL);
+    Map* defines = initialize_Map(NULL);
+    Map* includes = initialize_Map(NULL);
     HashMap* buffer = NULL;
     // char* temp_Str;
     i = 1;
-    // Dprintf("%s\n", argv[i]);
+    Dprintf("\n");
     while (i < argc)
     {
-        Dprintf("%s", argv[i]);
+        // Dprintf("%s", argv[i]);
         char* str = argv[i];
-        if(strcmp(str, "-D")){
+        if(!strcmp(str, "-D")){
             i++;
-            Add_to_map(argv[i], map);
-        }
+            Add_to_map(argv[i], defines);
+        }else if(str[0] == '-' && str[1] == 'D'){
+            strncpy(str, str + 2, strlen(str) - 2);
+            Add_to_map(str, defines);
+        }else if(!strcmp(str, "-I")){
+            i++;
+            Add_to_map(argv[i], includes);
+        }else if(str[0] == '-' && str[1] == 'I'){
+            strncpy(str, str + 2, strlen(str) - 2);
+            Add_to_map(str, includes);
+        } 
         i++;
     }
-    if(map != NULL){
-        print_map(map);
-        free_Map(map);
+    if(defines != NULL){
+        show_var(defines);
+        print_map(defines);
+        free_Map(defines);
+    }
+    if(includes != NULL){
+        show_var(includes);
+        print_map(includes);
+        free_Map(includes);
     }
     printf("\n\n");
     return 0;
