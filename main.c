@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include<string.h>
 
-//#define DEBUG
-#define  REMOTE_DEBUGG
+#define DEBUG
+//#define  REMOTE_DEBUGG
 #ifdef DEBUG
     #define show_var(a) printf("\nVariable %s\n", #a)
     #define Dprintf(msg,...) printf(msg " ",  ##__VA_ARGS__)
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     List* includes = initialize_List(NULL);
     List* outputs = initialize_List(NULL);
 
-    char* inFile;
+    char* inFile = NULL;
     // HashMap* buffer = NULL;
     char* temp_Str = NULL;
     i = 1;
@@ -37,6 +37,8 @@ int main(int argc, char **argv)
     for(i = 1; i < argc; i++){
         Rprintf("Argumentul %i: %s\n",i, argv[i]);
     }
+
+    i=1;
     while (i < argc)
     {
          Dprintf("%s", argv[i]);
