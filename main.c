@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     Map* defines = initialize_Map(NULL);
     List* includes = initialize_List(NULL);
     // HashMap* buffer = NULL;
-    // char* temp_Str;
+    char* temp_Str;
     i = 1;
     Dprintf("\n");
     while (i < argc)
@@ -31,14 +31,18 @@ int main(int argc, char **argv)
             i++;
             Add_to_map(argv[i], defines);
         }else if(str[0] == '-' && str[1] == 'D'){
-            strncpy(str, str + 2, strlen(str) - 2);
-            Add_to_map(str, defines);
+            strncpy(temp_Str, str + 2, strlen(str) - 2);
+            Add_to_map(temp_Str, defines);
         }else if(!strcmp(str, "-I")){
             i++;
+            Dprintf("String 1 %s\n", str);
             Add_to_list(argv[i], includes);
+            Dprintf("String 2 %s\n", str);
         }else if(str[0] == '-' && str[1] == 'I'){
-            strncpy(str, str + 2, strlen(str) - 2);
-            Add_to_list(str, includes);
+            Dprintf("String 3 %s\n", str);
+            strncpy(temp_Str, str + 2, strlen(str) - 2);
+            Dprintf("String 4 %s\n", temp_Str);
+            Add_to_list(temp_Str, includes);
         } 
         i++;
     }

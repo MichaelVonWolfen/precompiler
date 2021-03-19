@@ -158,6 +158,7 @@ HashMap* extract_key_value(char* str, HashMap* last_element){
 
 LinkedList* extract_list(char* str, LinkedList* last_element){
     char* value;
+    value = (char*)malloc(strlen(str)*sizeof(char));
     strcpy(value, str);
 
     return memory_alloc_Linked_List(value,last_element, NULL);
